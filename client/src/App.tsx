@@ -9,6 +9,9 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import VerifyEmail from "./pages/VerifyEmail";
 import Menu from "./pages/Menu";
+import Suno from "./pages/Suno";
+import SunoPost from "./pages/SunoPost";
+import SunoDetail from "./pages/SunoDetail";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -19,6 +22,9 @@ function Router() {
       <Route path={"/register"} component={Register} />
       <Route path={"/verify-email"} component={VerifyEmail} />
       <Route path={"/menu"} component={Menu} />
+      <Route path={"/suno"} component={Suno} />
+      <Route path={"/suno/post"} component={SunoPost} />
+      <Route path={"/suno/:id"} component={SunoDetail} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
