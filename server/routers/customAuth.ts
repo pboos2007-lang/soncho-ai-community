@@ -5,6 +5,9 @@ import { z } from "zod";
 import { createManusAnswer, createManusQuestion, createSunoPost, getManusAnswersByQuestionId, getManusQuestionById, getManusQuestions, getSunoPostById, getSunoPosts, getUserByEmail, getUserByVerificationToken, updateUserEmailVerified, upsertUser } from "../db";
 import { sendVerificationEmail } from "../email";
 import { publicProcedure, router } from "../_core/trpc";
+import { sdk } from "../_core/sdk";
+import { getSessionCookieOptions } from "../_core/cookies";
+import { COOKIE_NAME, ONE_YEAR_MS } from "@shared/const";
 
 export const customAuthRouter = router({
   // サイトパスワード確認
@@ -145,6 +148,15 @@ export const customAuthRouter = router({
         id: user.id,
         lastSignedIn: new Date(),
       });
+
+      // セッショントークンを作成してCookieに設定
+      const sessionToken = await sdk.createSessionToken(user.id, {
+        name: user.nickname || user.name || "",
+        expiresInMs: ONE_YEAR_MS,
+      });
+
+      const cookieOptions = getSessionCookieOptions(ctx.req);
+      ctx.res.cookie(COOKIE_NAME, sessionToken, { ...cookieOptions, maxAge: ONE_YEAR_MS });
 
       return { 
         success: true,
