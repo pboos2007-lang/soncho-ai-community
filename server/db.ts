@@ -1,6 +1,6 @@
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertManusAnswer, InsertManusQuestion, InsertSunoPost, InsertUser, manusAnswers, manusQuestions, sunoPosts, users } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -85,4 +85,87 @@ export async function getUser(id: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+// Suno Posts queries
+export async function createSunoPost(post: InsertSunoPost) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.insert(sunoPosts).values(post);
+  return result;
+}
+
+export async function getSunoPosts(category?: "Suno AI" | "Suno Studio") {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  if (category) {
+    return await db.select().from(sunoPosts).where(eq(sunoPosts.category, category)).orderBy(desc(sunoPosts.createdAt));
+  }
+  return await db.select().from(sunoPosts).orderBy(desc(sunoPosts.createdAt));
+}
+
+export async function getSunoPostById(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.select().from(sunoPosts).where(eq(sunoPosts.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+// Manus Questions queries
+export async function createManusQuestion(question: InsertManusQuestion) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.insert(manusQuestions).values(question);
+  return result;
+}
+
+export async function getManusQuestions(userId?: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  if (userId) {
+    return await db.select().from(manusQuestions).where(eq(manusQuestions.userId, userId)).orderBy(desc(manusQuestions.createdAt));
+  }
+  return await db.select().from(manusQuestions).orderBy(desc(manusQuestions.createdAt));
+}
+
+export async function getManusQuestionById(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.select().from(manusQuestions).where(eq(manusQuestions.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+// Manus Answers queries
+export async function createManusAnswer(answer: InsertManusAnswer) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.insert(manusAnswers).values(answer);
+  return result;
+}
+
+export async function getManusAnswersByQuestionId(questionId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  return await db.select().from(manusAnswers).where(eq(manusAnswers.questionId, questionId)).orderBy(desc(manusAnswers.createdAt));
+}
+
+// User queries for custom auth
+export async function getUserByEmail(email: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.select().from(users).where(eq(users.email, email)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getUserByVerificationToken(token: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.select().from(users).where(eq(users.verificationToken, token)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function updateUserEmailVerified(userId: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.update(users).set({ emailVerified: true, verificationToken: null }).where(eq(users.id, userId));
+}
