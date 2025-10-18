@@ -106,7 +106,7 @@ export default function ManusChat() {
                           : "bg-muted text-foreground"
                       }`}
                     >
-                      <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                      <p className="text-sm whitespace-pre-wrap break-words">{message.content}</p>
                     </div>
                   </div>
                 ))}
