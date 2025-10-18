@@ -52,7 +52,7 @@ export default function Menu() {
             </Button>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className={`grid ${user?.role === 'admin' ? 'md:grid-cols-4' : 'md:grid-cols-3'} gap-6`}>
             {/* Sunoエリア */}
             <Link href="/suno">
               <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">
@@ -112,6 +112,28 @@ export default function Menu() {
                 </CardContent>
               </Card>
             </Link>
+
+            {/* 管理者専用 */}
+            {user?.role === "admin" && (
+              <Link href="/admin/questions">
+                <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full border-2 border-primary">
+                  <CardHeader>
+                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/20 mb-4">
+                      <User className="h-6 w-6 text-primary" />
+                    </div>
+                    <CardTitle>管理者</CardTitle>
+                    <CardDescription>
+                      全質問管理
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">
+                      すべてのユーザーの質問を確認・回答できます
+                    </p>
+                  </CardContent>
+                </Card>
+              </Link>
+            )}
           </div>
         </div>
       </div>
