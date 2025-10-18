@@ -12,6 +12,11 @@ import Menu from "./pages/Menu";
 import Suno from "./pages/Suno";
 import SunoPost from "./pages/SunoPost";
 import SunoDetail from "./pages/SunoDetail";
+import Manus from "./pages/Manus";
+import ManusChat from "./pages/ManusChat";
+import ManusQuestions from "./pages/ManusQuestions";
+import ManusQuestionNew from "./pages/ManusQuestionNew";
+import ManusQuestionDetail from "./pages/ManusQuestionDetail";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -25,6 +30,11 @@ function Router() {
       <Route path={"/suno"} component={Suno} />
       <Route path={"/suno/post"} component={SunoPost} />
       <Route path={"/suno/:id"} component={SunoDetail} />
+      <Route path={"/manus"} component={Manus} />
+      <Route path={"/manus/chat"} component={ManusChat} />
+      <Route path={"/manus/questions"} component={ManusQuestions} />
+      <Route path={"/manus/questions/new"} component={ManusQuestionNew} />
+      <Route path={"/manus/questions/:id"} component={ManusQuestionDetail} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
