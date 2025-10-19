@@ -44,27 +44,31 @@ export default function Register() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4" autoComplete="on">
             <div className="space-y-2">
               <Label htmlFor="nickname">ニックネーム</Label>
               <Input
                 id="nickname"
+                name="nickname"
                 type="text"
                 placeholder="ニックネーム"
                 value={nickname}
                 onChange={(e) => setNickname(e.target.value)}
-                required
+                autoComplete="nickname"
                 maxLength={100}
+                required
               />
             </div>
             <div className="space-y-2">
               <Label htmlFor="email">メールアドレス</Label>
               <Input
                 id="email"
+                name="email"
                 type="email"
                 placeholder="your@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                autoComplete="email"
                 required
               />
             </div>
@@ -72,12 +76,14 @@ export default function Register() {
               <Label htmlFor="password">パスワード</Label>
               <Input
                 id="password"
+                name="password"
                 type="password"
                 placeholder="8文字以上"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required
+                autoComplete="new-password"
                 minLength={8}
+                required
               />
               <p className="text-xs text-muted-foreground">
                 8文字以上で入力してください
