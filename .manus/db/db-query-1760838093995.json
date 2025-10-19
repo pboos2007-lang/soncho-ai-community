@@ -1,0 +1,23 @@
+{
+  "query": "SELECT * FROM users WHERE email = 'p.boos2007@gmail.com'",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3SwYzJqH8ZjMHQL.root --database 9SmDG5UZCAhcptaHcyX7xi --execute SELECT * FROM users WHERE email = 'p.boos2007@gmail.com'",
+  "rows": [
+    {
+      "id": "JLnP8trZCtvS32CUAzymG9",
+      "name": "村長 似顔絵島の",
+      "email": "p.boos2007@gmail.com",
+      "loginMethod": "google",
+      "role": "admin",
+      "createdAt": "2025-10-18 21:25:24",
+      "lastSignedIn": "2025-10-19 01:37:15",
+      "nickname": "NULL",
+      "passwordHash": "$2b$10$FBJUnB6NnXSUNOEjZn3CY.5jf//BnnIJ8PaXpsgb6HaDooxemR19.",
+      "emailVerified": "1",
+      "verificationToken": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\temail\tloginMethod\trole\tcreatedAt\tlastSignedIn\tnickname\tpasswordHash\temailVerified\tverificationToken\nJLnP8trZCtvS32CUAzymG9\t村長 似顔絵島の\tp.boos2007@gmail.com\tgoogle\tadmin\t2025-10-18 21:25:24\t2025-10-19 01:37:15\tNULL\t$2b$10$FBJUnB6NnXSUNOEjZn3CY.5jf//BnnIJ8PaXpsgb6HaDooxemR19.\t1\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 77
+}

@@ -1,0 +1,18 @@
+{
+  "query": "SELECT id, email, nickname, emailVerified, verificationToken, createdAt FROM users WHERE email = 'p.boos2007@gmail.com'",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3SwYzJqH8ZjMHQL.root --database 9SmDG5UZCAhcptaHcyX7xi --execute SELECT id, email, nickname, emailVerified, verificationToken, createdAt FROM users WHERE email = 'p.boos2007@gmail.com'",
+  "rows": [
+    {
+      "id": "user_df074bf763dbea5c2bacdc54350d6cd6",
+      "email": "p.boos2007@gmail.com",
+      "nickname": "SonchoUser",
+      "emailVerified": "1",
+      "verificationToken": "NULL",
+      "createdAt": "2025-10-19 01:44:11"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\temail\tnickname\temailVerified\tverificationToken\tcreatedAt\nuser_df074bf763dbea5c2bacdc54350d6cd6\tp.boos2007@gmail.com\tSonchoUser\t1\tNULL\t2025-10-19 01:44:11\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}

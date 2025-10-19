@@ -1,0 +1,22 @@
+{
+  "query": "SELECT email, emailVerified FROM users",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3SwYzJqH8ZjMHQL.root --database 9SmDG5UZCAhcptaHcyX7xi --execute SELECT email, emailVerified FROM users",
+  "rows": [
+    {
+      "email": "p.boos2007@gmail.com",
+      "emailVerified": "1"
+    },
+    {
+      "email": "p.boss2007@gmail.com",
+      "emailVerified": "0"
+    },
+    {
+      "email": "media_box_boss@yahoo.co.jp",
+      "emailVerified": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "email\temailVerified\np.boos2007@gmail.com\t1\np.boss2007@gmail.com\t0\nmedia_box_boss@yahoo.co.jp\t1\n",
+  "stderr": "",
+  "execution_time_ms": 126
+}

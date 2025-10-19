@@ -176,8 +176,11 @@ export const customAuthRouter = router({
         });
       }
 
-      // メール確認チェック
-      if (!user.emailVerified) {
+      // デバッグログ
+      console.log("[Login Debug] User:", { email: user.email, emailVerified: user.emailVerified, type: typeof user.emailVerified });
+
+      // メール確認チェック (MySQL TINYINTは0/1として返される可能性があるため明示的に比較)
+      if (user.emailVerified !== true && (user.emailVerified as any) !== 1) {
         throw new TRPCError({
           code: "FORBIDDEN",
           message: "メールアドレスが確認されていません。確認メールをご確認ください。",
