@@ -175,3 +175,84 @@ export async function updateUserEmailVerified(userId: string) {
   if (!db) throw new Error("Database not available");
   await db.update(users).set({ emailVerified: true, verificationToken: null }).where(eq(users.id, userId));
 }
+
+
+// Site settings functions
+export async function getSiteSetting(key: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const { siteSettings } = await import("../drizzle/schema");
+  const result = await db.select().from(siteSettings).where(eq(siteSettings.key, key)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function setSiteSetting(key: string, value: string) {
+  const db = await getDb();
+  if (!db) return;
+  
+  const { siteSettings } = await import("../drizzle/schema");
+  await db.insert(siteSettings).values({ key, value, updatedAt: new Date() })
+    .onDuplicateKeyUpdate({ set: { value, updatedAt: new Date() } });
+}
+
+// Announcement functions
+export async function getActiveAnnouncements() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const { announcements } = await import("../drizzle/schema");
+  return await db.select().from(announcements)
+    .where(eq(announcements.isActive, true))
+    .orderBy(desc(announcements.createdAt));
+}
+
+export async function getAllAnnouncements() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const { announcements } = await import("../drizzle/schema");
+  return await db.select().from(announcements).orderBy(desc(announcements.createdAt));
+}
+
+export async function createAnnouncement(content: string) {
+  const db = await getDb();
+  if (!db) return;
+  
+  const { announcements } = await import("../drizzle/schema");
+  await db.insert(announcements).values({ content, isActive: true, createdAt: new Date(), updatedAt: new Date() });
+}
+
+export async function updateAnnouncement(id: number, content: string, isActive: boolean) {
+  const db = await getDb();
+  if (!db) return;
+  
+  const { announcements } = await import("../drizzle/schema");
+  await db.update(announcements)
+    .set({ content, isActive, updatedAt: new Date() })
+    .where(eq(announcements.id, id));
+}
+
+export async function deleteAnnouncement(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  
+  const { announcements } = await import("../drizzle/schema");
+  await db.delete(announcements).where(eq(announcements.id, id));
+}
+
+// User management functions
+export async function getAllUsers() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(users).orderBy(desc(users.createdAt));
+}
+
+export async function deleteSunoPost(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  
+  await db.delete(sunoPosts).where(eq(sunoPosts.id, id));
+}
+

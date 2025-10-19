@@ -15,6 +15,13 @@
       "when": 1760822683900,
       "tag": "0001_magenta_thundra",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1760833516606,
+      "tag": "0002_young_gladiator",
+      "breakpoints": true
     }
   ]
 }

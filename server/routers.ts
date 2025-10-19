@@ -4,6 +4,7 @@ import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { customAuthRouter, manusRouter, sunoRouter } from "./routers/customAuth";
 import { aiChatRouter } from "./routers/aiChat";
+import { adminRouter } from "./routers/admin";
 
 export const appRouter = router({
   system: systemRouter,
@@ -23,6 +24,7 @@ export const appRouter = router({
   suno: sunoRouter,
   manus: manusRouter,
   aiChat: aiChatRouter,
+  admin: adminRouter,
 });
 
 export type AppRouter = typeof appRouter;

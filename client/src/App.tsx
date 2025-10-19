@@ -19,6 +19,9 @@ import ManusQuestionNew from "./pages/ManusQuestionNew";
 import ManusQuestionDetail from "./pages/ManusQuestionDetail";
 import MyPage from "./pages/MyPage";
 import AdminQuestions from "./pages/AdminQuestions";
+import AdminSettings from "./pages/AdminSettings";
+import AdminAnnouncements from "./pages/AdminAnnouncements";
+import AdminUsers from "./pages/AdminUsers";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -39,6 +42,9 @@ function Router() {
       <Route path={"/manus/questions/:id"} component={ManusQuestionDetail} />
       <Route path={"/mypage"} component={MyPage} />
       <Route path={"/admin/questions"} component={AdminQuestions} />
+      <Route path={"/admin/settings"} component={AdminSettings} />
+      <Route path={"/admin/announcements"} component={AdminAnnouncements} />
+      <Route path={"/admin/users"} component={AdminUsers} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

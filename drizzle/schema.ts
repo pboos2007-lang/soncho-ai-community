@@ -59,3 +59,26 @@ export const manusAnswers = mysqlTable("manus_answers", {
 
 export type ManusAnswer = typeof manusAnswers.$inferSelect;
 export type InsertManusAnswer = typeof manusAnswers.$inferInsert;
+
+// Site settings table
+export const siteSettings = mysqlTable("site_settings", {
+  id: int("id").primaryKey().autoincrement(),
+  key: varchar("key", { length: 100 }).notNull().unique(),
+  value: text("value"),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+});
+
+export type SiteSetting = typeof siteSettings.$inferSelect;
+export type InsertSiteSetting = typeof siteSettings.$inferInsert;
+
+// Announcements table
+export const announcements = mysqlTable("announcements", {
+  id: int("id").primaryKey().autoincrement(),
+  content: text("content").notNull(),
+  isActive: boolean("isActive").default(true).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+});
+
+export type Announcement = typeof announcements.$inferSelect;
+export type InsertAnnouncement = typeof announcements.$inferInsert;

@@ -42,3 +42,21 @@ export async function sendVerificationEmail(to: string, token: string, baseUrl: 
   }
 }
 
+
+
+export async function sendEmail(options: { to: string; subject: string; html: string }) {
+  try {
+    const resend = getResend();
+    await resend.emails.send({
+      from: 'SonchoのAIコミュニティー <onboarding@resend.dev>',
+      to: options.to,
+      subject: options.subject,
+      html: options.html,
+    });
+    return true;
+  } catch (error) {
+    console.error('Failed to send email:', error);
+    return false;
+  }
+}
+

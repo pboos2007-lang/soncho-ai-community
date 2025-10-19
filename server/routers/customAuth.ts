@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 import bcrypt from "bcryptjs";
 import { randomBytes } from "crypto";
 import { z } from "zod";
-import { createManusAnswer, createManusQuestion, createSunoPost, getManusAnswersByQuestionId, getManusQuestionById, getManusQuestions, getSunoPostById, getSunoPosts, getUserByEmail, getUserByVerificationToken, updateUserEmailVerified, upsertUser } from "../db";
+import { createManusAnswer, createManusQuestion, createSunoPost, getActiveAnnouncements, getManusAnswersByQuestionId, getManusQuestionById, getManusQuestions, getSunoPostById, getSunoPosts, getUserByEmail, getUserByVerificationToken, updateUserEmailVerified, upsertUser } from "../db";
 import { sendVerificationEmail } from "../email";
 import { publicProcedure, router } from "../_core/trpc";
 import { sdk } from "../_core/sdk";
@@ -10,6 +10,11 @@ import { getSessionCookieOptions } from "../_core/cookies";
 import { COOKIE_NAME, ONE_YEAR_MS } from "@shared/const";
 
 export const customAuthRouter = router({
+  // お知らせ取得
+  getActiveAnnouncements: publicProcedure.query(async () => {
+    return await getActiveAnnouncements();
+  }),
+
   // サイトパスワード確認
   verifySitePassword: publicProcedure
     .input(z.object({ password: z.string() }))
