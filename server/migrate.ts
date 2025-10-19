@@ -21,17 +21,19 @@ async function runMigration() {
     // Create tables using raw SQL to handle IF NOT EXISTS properly
     await pool.query(`
       -- Create role enum if not exists
-      DO $$ BEGIN
-        CREATE TYPE role AS ENUM ('user', 'admin');
-      EXCEPTION
-        WHEN duplicate_object THEN null;
+      DO $$ 
+      BEGIN
+        IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'role') THEN
+          CREATE TYPE role AS ENUM ('user', 'admin');
+        END IF;
       END $$;
 
       -- Create category enum if not exists
-      DO $$ BEGIN
-        CREATE TYPE category AS ENUM ('Suno AI', 'Suno Studio');
-      EXCEPTION
-        WHEN duplicate_object THEN null;
+      DO $$ 
+      BEGIN
+        IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'category') THEN
+          CREATE TYPE category AS ENUM ('Suno AI', 'Suno Studio');
+        END IF;
       END $$;
 
       -- Create users table
