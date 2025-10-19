@@ -35,7 +35,7 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-orange-50 to-blue-100">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-orange-50 to-blue-100 p-4">
       <Card className="w-full max-w-md shadow-xl">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold">会員登録</CardTitle>
@@ -44,7 +44,7 @@ export default function Register() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4" autoComplete="on">
+          <form onSubmit={handleSubmit} className="space-y-4" autoComplete="on" noValidate>
             <div className="space-y-2">
               <Label htmlFor="nickname">ニックネーム</Label>
               <Input
@@ -82,7 +82,6 @@ export default function Register() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="new-password"
-                minLength={8}
                 required
               />
               <p className="text-xs text-muted-foreground">
