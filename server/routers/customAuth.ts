@@ -91,6 +91,45 @@ export const customAuthRouter = router({
       };
     }),
 
+  // 確認メール再送信
+  resendVerificationEmail: publicProcedure
+    .input(z.object({ email: z.string().email() }))
+    .mutation(async ({ input, ctx }) => {
+      const user = await getUserByEmail(input.email);
+      
+      if (!user) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "このメールアドレスは登録されていません",
+        });
+      }
+
+      if (user.emailVerified) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "このメールアドレスは既に確認済みです",
+        });
+      }
+
+      // 新しい確認トークンを生成
+      const verificationToken = randomBytes(32).toString("hex");
+      
+      // トークンを更新
+      await upsertUser({
+        id: user.id,
+        verificationToken,
+      });
+
+      // 確認メールを再送信
+      const baseUrl = `${ctx.req.protocol}://${ctx.req.get("host")}`;
+      await sendVerificationEmail(input.email, verificationToken, baseUrl);
+
+      return { 
+        success: true,
+        message: "確認メールを再送信しました。"
+      };
+    }),
+
   // メールアドレス確認
   verifyEmail: publicProcedure
     .input(z.object({ token: z.string() }))
