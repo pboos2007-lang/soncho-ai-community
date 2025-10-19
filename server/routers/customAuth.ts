@@ -59,8 +59,11 @@ export const customAuthRouter = router({
       // パスワードをハッシュ化
       const passwordHash = await bcrypt.hash(input.password, 10);
       
+      // メール認証をスキップするかどうか
+      const skipEmailVerification = process.env.SKIP_EMAIL_VERIFICATION === "true";
+      
       // 確認トークンを生成
-      const verificationToken = randomBytes(32).toString("hex");
+      const verificationToken = skipEmailVerification ? null : randomBytes(32).toString("hex");
       
       // ユーザーIDを生成
       const userId = `user_${randomBytes(16).toString("hex")}`;
@@ -76,18 +79,22 @@ export const customAuthRouter = router({
         nickname: input.nickname,
         passwordHash,
         verificationToken,
-        emailVerified: false,
+        emailVerified: skipEmailVerification,
         loginMethod: "email",
         role,
       });
 
-      // 確認メールを送信
-      const baseUrl = `${ctx.req.protocol}://${ctx.req.get("host")}`;
-      await sendVerificationEmail(input.email, verificationToken, baseUrl);
+      // メール認証をスキップしない場合は確認メールを送信
+      if (!skipEmailVerification) {
+        const baseUrl = `${ctx.req.protocol}://${ctx.req.get("host")}`;
+        await sendVerificationEmail(input.email, verificationToken!, baseUrl);
+      }
 
       return { 
         success: true,
-        message: "登録完了しました。確認メールをご確認ください。"
+        message: skipEmailVerification 
+          ? "登録完了しました。すぐにログインできます。"
+          : "登録完了しました。確認メールをご確認ください。"
       };
     }),
 
