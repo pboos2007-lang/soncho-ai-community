@@ -5,13 +5,25 @@ import { Link, useLocation } from "wouter";
 import { Music, Bot, User, LogOut, Settings, Bell, Users, ExternalLink } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 export default function Menu() {
   const { user, loading, isAuthenticated } = useAuth();
   const [, setLocation] = useLocation();
+  const [showInactiveDialog, setShowInactiveDialog] = useState(false);
+  const [inactiveFeatureName, setInactiveFeatureName] = useState("");
   
   const { data: announcements } = trpc.customAuth.getActiveAnnouncements.useQuery();
+  const { data: settings } = trpc.customAuth.getPublicSettings.useQuery();
   
   const logout = trpc.auth.logout.useMutation({
     onSuccess: () => {
@@ -26,6 +38,24 @@ export default function Menu() {
       setLocation("/login");
     }
   }, [loading, isAuthenticated, setLocation]);
+
+  const handleSunoClick = () => {
+    if (settings && !settings.sunoActive) {
+      setInactiveFeatureName("Sunoエリア");
+      setShowInactiveDialog(true);
+    } else {
+      setLocation("/suno");
+    }
+  };
+
+  const handleManusClick = () => {
+    if (settings && !settings.manusActive) {
+      setInactiveFeatureName("Manusエリア");
+      setShowInactiveDialog(true);
+    } else {
+      setLocation("/manus");
+    }
+  };
 
   if (loading) {
     return (
@@ -141,7 +171,7 @@ export default function Menu() {
 
           <div className="grid md:grid-cols-3 gap-6">
             {/* Sunoエリア */}
-            <Link href="/suno">
+            <div onClick={handleSunoClick}>
               <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">
                 <CardHeader>
                   <div className="flex items-center justify-center w-12 h-12 rounded-full bg-secondary/20 mb-4">
@@ -158,10 +188,10 @@ export default function Menu() {
                   </p>
                 </CardContent>
               </Card>
-            </Link>
+            </div>
 
             {/* Manusエリア */}
-            <Link href="/manus">
+            <div onClick={handleManusClick}>
               <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">
                 <CardHeader>
                   <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/20 mb-4">
@@ -178,7 +208,7 @@ export default function Menu() {
                   </p>
                 </CardContent>
               </Card>
-            </Link>
+            </div>
 
             {/* マイページ */}
             <Link href="/mypage">
@@ -200,6 +230,21 @@ export default function Menu() {
               </Card>
             </Link>
           </div>
+
+          {/* 機能停止中ダイアログ */}
+          <AlertDialog open={showInactiveDialog} onOpenChange={setShowInactiveDialog}>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>機能停止中</AlertDialogTitle>
+                <AlertDialogDescription>
+                  {inactiveFeatureName}はただ今調整中です。しばらくお待ちください。
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogAction>確認</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </div>
     </div>

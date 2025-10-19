@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 import bcrypt from "bcryptjs";
 import { randomBytes } from "crypto";
 import { z } from "zod";
-import { createManusAnswer, createManusQuestion, createSunoPost, getActiveAnnouncements, getManusAnswersByQuestionId, getManusQuestionById, getManusQuestions, getSunoPostById, getSunoPosts, getUserByEmail, getUserByVerificationToken, updateUserEmailVerified, upsertUser } from "../db";
+import { createManusAnswer, createManusQuestion, createSunoPost, getActiveAnnouncements, getManusAnswersByQuestionId, getManusQuestionById, getManusQuestions, getSiteSetting, getSunoPostById, getSunoPosts, getUserByEmail, getUserByVerificationToken, updateUserEmailVerified, upsertUser } from "../db";
 import { sendVerificationEmail } from "../email";
 import { publicProcedure, router } from "../_core/trpc";
 import { sdk } from "../_core/sdk";
@@ -13,6 +13,17 @@ export const customAuthRouter = router({
   // お知らせ取得
   getActiveAnnouncements: publicProcedure.query(async () => {
     return await getActiveAnnouncements();
+  }),
+
+  // サイト設定取得（一般ユーザー用）
+  getPublicSettings: publicProcedure.query(async () => {
+    const sunoActive = await getSiteSetting("suno_active");
+    const manusActive = await getSiteSetting("manus_active");
+    
+    return {
+      sunoActive: sunoActive?.value === "true",
+      manusActive: manusActive?.value === "true",
+    };
   }),
 
   // サイトパスワード確認

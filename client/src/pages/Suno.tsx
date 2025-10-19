@@ -30,12 +30,19 @@ export default function Suno() {
   const { data: posts, isLoading } = trpc.suno.getPosts.useQuery({ 
     category: selectedCategory 
   });
+  const { data: settings } = trpc.customAuth.getPublicSettings.useQuery();
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
       setLocation("/login");
     }
   }, [loading, isAuthenticated, setLocation]);
+
+  useEffect(() => {
+    if (!loading && settings && !settings.sunoActive) {
+      setLocation("/menu");
+    }
+  }, [loading, settings, setLocation]);
 
   if (loading) {
     return (

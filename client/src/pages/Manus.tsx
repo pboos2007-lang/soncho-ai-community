@@ -4,16 +4,24 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { Link, useLocation } from "wouter";
 import { ArrowLeft, Bot, MessageCircle } from "lucide-react";
 import { useEffect } from "react";
+import { trpc } from "@/lib/trpc";
 
 export default function Manus() {
   const { user, loading, isAuthenticated } = useAuth();
   const [, setLocation] = useLocation();
+  const { data: settings } = trpc.customAuth.getPublicSettings.useQuery();
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
       setLocation("/login");
     }
   }, [loading, isAuthenticated, setLocation]);
+
+  useEffect(() => {
+    if (!loading && settings && !settings.manusActive) {
+      setLocation("/menu");
+    }
+  }, [loading, settings, setLocation]);
 
   if (loading) {
     return (
