@@ -1,0 +1,49 @@
+# Render環境変数設定リスト
+# 以下の環境変数をRenderのWebサービス設定で追加してください
+
+# ===== 必須環境変数 =====
+
+# 1. データベース接続
+DATABASE_URL=postgresql://soncho_ai_community_user:YeiMJjeSGTtpOTmb4oGHPHfgx2BQcqC2@dpg-d3qge58gjchc73bb50eg-a/soncho_ai_community
+
+# 2. Node.js設定
+NODE_ENV=production
+NODE_VERSION=22
+
+# 3. Manus Forge API（既存の設定から取得）
+BUILT_IN_FORGE_API_URL=https://forge.manus.im
+BUILT_IN_FORGE_API_KEY=（既存の値を使用）
+
+# 4. OAuth設定（既存の設定から取得）
+OAUTH_SERVER_URL=（既存の値を使用）
+OWNER_OPEN_ID=（既存の値を使用）
+VITE_APP_ID=（既存の値を使用）
+VITE_OAUTH_PORTAL_URL=（既存の値を使用）
+
+# 5. セキュリティ（新規生成）
+JWT_SECRET=（ランダムな32文字以上の文字列）
+SITE_PASSWORD=（サイトアクセス用パスワード）
+
+# 6. メール送信（既存の設定から取得）
+RESEND_API_KEY=（既存の値を使用）
+
+# 7. 管理者情報
+ADMIN_EMAIL=media_box_boss@yahoo.co.jp
+OWNER_NAME=Soncho
+
+# 8. アプリ設定
+VITE_APP_TITLE=SonchoのAIコミュニティー
+VITE_APP_LOGO=
+
+# 9. その他
+SKIP_EMAIL_VERIFICATION=false
+
+# ===== 注意事項 =====
+# - （既存の値を使用）と書かれている項目は、現在の開発環境の値を使用してください
+# - JWT_SECRETは新規生成が必要です（下記参照）
+# - SITE_PASSWORDは任意のパスワードを設定してください
+
+# ===== JWT_SECRETの生成方法 =====
+# オンラインツール: https://randomkeygen.com/
+# または以下のコマンド: openssl rand -base64 32
+

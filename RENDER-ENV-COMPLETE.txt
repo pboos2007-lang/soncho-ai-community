@@ -1,0 +1,51 @@
+# Render環境変数設定リスト（完全版）
+# 以下の環境変数をRenderのWebサービス設定で「Add Environment Variable」から1つずつ追加してください
+
+# ===== データベース =====
+DATABASE_URL=postgresql://soncho_ai_community_user:YeiMJjeSGTtpOTmb4oGHPHfgx2BQcqC2@dpg-d3qge58gjchc73bb50eg-a/soncho_ai_community
+
+# ===== Node.js設定 =====
+NODE_ENV=production
+NODE_VERSION=22
+
+# ===== Manus Forge API =====
+BUILT_IN_FORGE_API_URL=https://forge.manus.ai
+BUILT_IN_FORGE_API_KEY=ngj8bjCFNNGdRq74V9Cndk
+
+# ===== OAuth設定 =====
+OAUTH_SERVER_URL=https://api.manus.im
+OWNER_OPEN_ID=JLnP8trZCtvS32CUAzymG9
+VITE_APP_ID=9SmDG5UZCAhcptaHcyX7xi
+VITE_OAUTH_PORTAL_URL=https://manus.im
+
+# ===== セキュリティ =====
+JWT_SECRET=U5nRuT8XrdMQCDkFphsaDIpfYsYYpg5t2oMDQJqSltQ=
+SITE_PASSWORD=soncho2025
+
+# ===== メール送信 =====
+RESEND_API_KEY=re_fnhEbYiK_F6rgrzXWdQbcpzek1kkytcDN
+
+# ===== 管理者情報 =====
+ADMIN_EMAIL=media_box_boss@yahoo.co.jp
+OWNER_NAME=村長 似顔絵島の
+
+# ===== アプリ設定 =====
+VITE_APP_TITLE=SonchoのAIコミュニティー（Manus＆Suno）
+VITE_APP_LOGO=https://files.manuscdn.com/user_upload_by_module/web_dev_logo/310519663084431399/jQglaDsVyURtnxYQ.png
+
+# ===== その他 =====
+SKIP_EMAIL_VERIFICATION=false
+
+# ===== 設定方法 =====
+# 1. Renderの「Web Service」設定画面で「Environment」タブを開く
+# 2. 「Add Environment Variable」をクリック
+# 3. 上記の各行について：
+#    - 左側（=の前）をKeyに入力
+#    - 右側（=の後）をValueに入力
+# 4. すべて追加したら「Save Changes」をクリック
+
+# ===== 注意事項 =====
+# - SITE_PASSWORDは「soncho2025」に設定していますが、お好みで変更可能です
+# - すべての環境変数を正確にコピー＆ペーストしてください
+# - スペースや改行が入らないように注意してください
+
