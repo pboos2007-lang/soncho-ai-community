@@ -1,15 +1,21 @@
 import { desc, eq } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/mysql2";
+import { drizzle } from "drizzle-orm/node-postgres";
+import { Pool } from "pg";
 import { InsertManusAnswer, InsertManusQuestion, InsertSunoPost, InsertUser, manusAnswers, manusQuestions, sunoPosts, users } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
+let _pool: Pool | null = null;
 
 // Lazily create the drizzle instance so local tooling can run without a DB.
 export async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try {
-      _db = drizzle(process.env.DATABASE_URL);
+      _pool = new Pool({
+        connectionString: process.env.DATABASE_URL,
+      });
+      _db = drizzle(_pool);
+      console.log("[Database] Connected to PostgreSQL");
     } catch (error) {
       console.warn("[Database] Failed to connect:", error);
       _db = null;
@@ -72,7 +78,9 @@ export async function upsertUser(user: InsertUser): Promise<void> {
       updateSet.lastSignedIn = new Date();
     }
 
-    await db.insert(users).values(values).onDuplicateKeyUpdate({
+    // PostgreSQL upsert syntax
+    await db.insert(users).values(values).onConflictDoUpdate({
+      target: users.id,
       set: updateSet,
     });
   } catch (error) {
@@ -195,7 +203,10 @@ export async function setSiteSetting(key: string, value: string) {
   
   const { siteSettings } = await import("../drizzle/schema");
   await db.insert(siteSettings).values({ key, value, updatedAt: new Date() })
-    .onDuplicateKeyUpdate({ set: { value, updatedAt: new Date() } });
+    .onConflictDoUpdate({ 
+      target: siteSettings.key,
+      set: { value, updatedAt: new Date() } 
+    });
 }
 
 // Announcement functions
